@@ -40,7 +40,7 @@ app.use("/sales", salesRoutes);
 // MONGOOSE SETUP
 
 const PORT = process.env.PORT || 9000;
-const mongoString = process.env.MONGODB_URL
+const mongoString = process.env.MONGODB_URL.toString()
 mongoose.set('strictQuery', false);
 mongoose.connect(mongoString, {
     useNewUrlParser:true,
