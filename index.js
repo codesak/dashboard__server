@@ -9,6 +9,7 @@ import clientRoutes from "./routes/client.js"
 import generalRoutes from "./routes/general.js"
 import managementRoutes from "./routes/management.js"
 import salesRoutes from "./routes/sales.js"
+import { createProxyMiddleware } from "http-proxy-middleware";
 
 // data_imports
 
@@ -21,9 +22,15 @@ import AffiliateStat from "./models/AffiliateStat.js";
 import {dataUser, dataProduct, dataProductStat, dataTransaction, dataOverallStat, dataAffiliateStat} from "./data/index.js"
 
 // CONFIGURATION
+const apiProxy = createProxyMiddleware('/api', {
+    target: 'http://13.233.130.222:4000', // Replace with the URL of the HTTP service you want to proxy
+    changeOrigin: true,
+    secure:false // Optional, changes the "Host" header to the target URL
+  });
 
 dotenv.config();
 const app = express();
+app.use('/api', apiProxy)
 app.use(express.json());
 app.use(helmet.crossOriginResourcePolicy({policy:"cross-origin"}));
 app.use(morgan("common"));
